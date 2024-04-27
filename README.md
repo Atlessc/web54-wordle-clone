@@ -1,75 +1,70 @@
-# Custom Wordle Challenge Feature Documentation
+# Wordle Clone Complete Project Documentation
 
 ## Overview
 
-This document provides guidelines for implementing a feature in a Wordle-like game where users can create a challenge with a custom word. The challenge can be shared with friends via a unique URL. The word is encrypted to ensure it is not exposed in the URL or the client-side code.
+This documentation details the structure and functionality of a Wordle clone that supports daily challenges and custom word challenges that users can create and share.
 
 ## Features
 
-- **Challenge Creation**: Users can input a word to create a new game challenge.
-- **Unique Challenge URL**: Each challenge has a unique URL that can be shared but does not contain the solution word.
-- **Secure Word Storage**: Words are encrypted and securely stored on the server.
-- **Challenge Resolution**: Users can enter their guesses, and the server validates these without revealing the solution.
+- **Daily Challenge**: Engage with a new word challenge every day.
+- **Custom Challenge**: Create and share custom word puzzles with friends.
+- **Responsive Design**: Optimized for both desktop and mobile users.
 
 ## Technology Stack
 
-- **Frontend**: React, TypeScript, CSS
-- **Backend**: Node.js, Express
-- **Database**: PostgreSQL (for storing challenge data, including encrypted words)
-- **Encryption**: AES encryption for word security
+- **Frontend**: React, TypeScript, Vite, CSS
+- **Backend**: Node.js (optional for custom challenge handling)
+- **Routing**: react-router-dom for frontend routing
 
-## API Endpoints
+## Pages and Components
 
-### POST /api/challenge
+### Home Page
 
-- **Description**: Create a new challenge.
-- **Request Body**:
-  
-  ```json
+- **Path**: `/home`
+- **Components**:
+  - `NavBar`: Navigation bar with links to all main pages.
+  - `HomePage`: Introduction and selection between daily or custom challenges.
 
-  { "word": "encrypted_word" }
-  ```
+### Daily Challenge Page
 
-- **Response**:
-  
-  ```json
-  { "challengeId": "unique_challenge_id" }
-  ```
+- **Path**: `/daily-challenge`
+- **Components**:
+  - `WordGrid`: Displays the grid for the word puzzle.
+  - `Keyboard`: Virtual keyboard for input on mobile devices.
+  - `GameStatus`: Information about the current game state.
 
-### GET /api/challenge/:id
+### Custom Challenge Page
 
-- **Description**: Retrieve the challenge using a unique ID.
-- **Response**:
+- **Path**: `/custom-challenge`
+- **Components**:
+  - `ChallengeForm`: Form to create a new custom word challenge.
+  - `JoinChallengeForm`: Form to enter a code and join an existing challenge.
 
-  ```json
-  { "gameState": "current_game_state", "id": "challenge_id" }
-  ```
+### Landing Page
 
-## Database Schema
+- **Path**: `/`
+- **Components**:
+  - `LandingPage`: Welcome and overview of the game.
 
-### Challenges
+## Navigation
 
-- **id** (UUID): Unique identifier for each challenge.
-- **encryptedWord** (Text): AES encrypted word.
-- **createdAt** (Timestamp): Date and time the challenge was created.
-
-- cron job of deleteing the challenges after 24 hours
-
-## Security Considerations
-
-- **Encryption**: Use AES for encrypting the solution word. The key should be stored securely using environment variables or a key management service.
-- **HTTPS**: Ensure all data transmitted between the client and server is encrypted using SSL/TLS.
-- **Rate Limiting**: Implement rate limiting on API endpoints to prevent brute force attacks.
+Implemented using `react-router-dom`, the routes are defined in the `App` component, ensuring smooth navigation across different parts of the application.
 
 ## Deployment
 
-- **Platform**: Vercel
-- **Continuous Integration**: Set up GitHub Actions for CI/CD pipelines to automate testing and deployment.
+- **Platform**: Vercel for frontend hosting, ensures fast delivery and easy deployment.
+- **Continuous Integration**: GitHub Actions for automated testing and deployment processes.
+
+## Security Considerations
+
+- Use HTTPS to secure all data transmissions.
+- Implement encryption for custom challenges to ensure word secrecy.
 
 ## Future Enhancements
 
-- **User Authentication**: Implement user authentication to track and save user progress and high scores.
-- **Leaderboard**: Develop a leaderboard to display scores based on the number of guesses or time taken to solve challenges.
+- **User Authentication**: Introduce user accounts to track scores and manage settings.
+- **Leaderboard**: Leaderboard for high scores and competitive play.
+- **Accessibility Features**: Enhance accessibility for all users, including keyboard navigability and screen reader support.
   
 ## Structure
 
