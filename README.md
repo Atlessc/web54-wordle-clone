@@ -1,4 +1,4 @@
-# Wordle Clone Complete Project Documentation
+# Word In A Bottle: A Wordle Clone 
 
 ## Overview
 
