@@ -48,7 +48,7 @@ const DailyChallengePage = () => {
     if (key === 'backspace') {
       setCurrentGuess(currentGuess.slice(0, -1));
     } else if (key === 'enter') {
-      if (currentGuess.length === wordLength && guesses.length < 6) {
+      if (currentGuess.length === wordLength && guesses.length < numOfGuesses) {
         evaluateGuess(currentGuess);
         setCurrentGuess('');
       }
