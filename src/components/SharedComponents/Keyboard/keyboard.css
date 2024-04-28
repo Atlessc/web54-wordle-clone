@@ -1,0 +1,24 @@
+.keyboard-key.correct {
+  background-color: green;
+  color: white;
+}
+
+.keyboard-key.present {
+  background-color: yellow;
+  color: black;
+}
+
+.keyboard-key.absent {
+  background-color: rgb(73, 73, 73);
+  color: white;
+}
+
+.keyboard-key {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+}

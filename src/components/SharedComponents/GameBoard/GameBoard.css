@@ -1,0 +1,37 @@
+.game-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.guess-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.letter-box {
+  width: 50px; 
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  margin: 5px;
+  font-size: 24px;
+  background-color: #fff; 
+  color: #000; 
+}
+
+.letter-box.correct {
+  background-color: green;
+}
+
+.letter-box.present {
+  background-color: yellow;
+}
+
+.letter-box.absent {
+  background-color: lightgrey;
+}

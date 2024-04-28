@@ -1,8 +1,8 @@
 const DashboardPage = () => {
   return (
     <div>
-      <h1>Home Page</h1>
-      <p>Choose your game mode!</p>
+      <h1>Dashboard</h1>
+      <p>Stats!</p>
     </div>
   );
 };
