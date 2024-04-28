@@ -58,34 +58,57 @@ const DailyChallengePage = () => {
   };
 
   const evaluateGuess = (guess: string) => {
-    const evaluatedGuess: Array<{ letter: string; status: 'correct' | 'present' | 'absent' }> = guess.split('').map((letter, index) => {
-      const isInCorrectPosition = letter === currentWord[index];
-        let status: 'correct' | 'present' | 'absent';  // Explicitly defining the type of status
-
-        if (letter === currentWord[index]) {
-            status = 'correct';
-        } else if (currentWord.includes(letter)) {
-            status = currentWord[index] === letter ? 'correct' : 'present';
-        } else {
-            status = 'absent';
-        }
-                // Update letter statuses for keyboard visual feedback
-                setLetterStatuses(prevStatuses => ({
-                  ...prevStatuses,
-                  [letter]: prevStatuses[letter] === 'correct' || isInCorrectPosition ? 'correct' : status
-              }));
-
-        return { letter, status };
+    // Initialize count of each letter in the target word
+    const targetFrequency: { [key: string]: number } = {};
+    currentWord.split('').forEach(letter => {
+      targetFrequency[letter] = (targetFrequency[letter] || 0) + 1;
     });
-
-    setGuesses([...guesses, evaluatedGuess]);
-
+  
+    const evaluatedGuess: Array<{ letter: string; status: 'correct' | 'present' | 'absent' }> = [];
+  
+    // First pass to assign correct status and reduce frequency count
+    guess.split('').forEach((letter, index) => {
+      if (letter === currentWord[index]) {
+        evaluatedGuess.push({ letter, status: 'correct' });
+        targetFrequency[letter] -= 1; // Use up one occurrence of the letter
+      } else {
+        evaluatedGuess.push({ letter, status: 'absent' }); // Temporarily mark as absent
+      }
+    });
+  
+    // Second pass to update absent to present if applicable
+    evaluatedGuess.forEach((item) => {
+      if (item.status === 'absent' && targetFrequency[item.letter] > 0) {
+        item.status = 'present';
+        targetFrequency[item.letter] -= 1; // Use up one occurrence of the letter
+      }
+    });
+  
+    // Update state with the results of this guess
+    setGuesses(prevGuesses => [...prevGuesses, evaluatedGuess]);
+  
+    // Update letter statuses for the keyboard visual feedback
+    const newLetterStatuses: { [key: string]: 'correct' | 'present' | 'absent' } = {};
+    evaluatedGuess.forEach(({ letter, status }) => {
+      // Only update the status if it is more significant than what's already recorded
+      const currentStatus = letterStatuses[letter];
+      if (status === 'correct' || (status === 'present' && currentStatus !== 'correct')) {
+        newLetterStatuses[letter] = status;
+      } else if (!currentStatus) {
+        newLetterStatuses[letter] = 'absent';
+      }
+    });
+  
+    setLetterStatuses(prevStatuses => ({ ...prevStatuses, ...newLetterStatuses }));
+  
+    // Check if the game is won or lost
     if (evaluatedGuess.every(({ status }) => status === 'correct')) {
-      setGameStatus('won'); 
+      setGameStatus('won');
     } else if (guesses.length + 1 === numOfGuesses) {
       setGameStatus('lost');
     }
-};
+  };
+  
 
 const handleNewGame = () => {
   setCurrentGuess('');
