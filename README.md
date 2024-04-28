@@ -1,4 +1,4 @@
-# Word In A Bottle: A Wordle Clone 
+# Word In A Bottle: A Wordle Clone
 
 ## Overview
 

@@ -4,7 +4,7 @@ const DashboardPage = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <Link to="/daily-challenge"><button>Daily Challenge</button></Link>
+      <Link to="/daily-challenge"><button>Regular Mode</button></Link>
     </div>
   );
 };

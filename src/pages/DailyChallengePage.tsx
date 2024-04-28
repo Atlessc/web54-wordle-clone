@@ -120,7 +120,7 @@ const handleNewGame = () => {
 
   return (
     <div>
-      <h1>Daily Challenge</h1>
+      <h1>Word In A Bottle: Regular Mode</h1>
       <GameBoard wordLength={wordLength} guesses={guesses} currentGuess={currentGuess} numOfGuesses={numOfGuesses} />
       <Keyboard onKeyPress={handleKeyInput} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} />
       {gameStatus === 'won' && 
