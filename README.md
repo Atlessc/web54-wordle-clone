@@ -4,23 +4,33 @@
 
 This documentation details the structure and functionality of a Wordle clone that supports daily challenges and custom word challenges that users can create and share.
 
+there are 3 modes:
+
+- Regular Mode: this is a word with 4-6 letters, pretty standard (28,600 words)
+- Hard mode: this is a word with 7-10 letters, a bit more challenging (104,996 Words)
+- Insane mode: this is a word with 11-15 letters, very challenging (43,489 Words)
+
+there is also a master list of words with 178,188 words
+
+there is also a JS function that will help you sort the list of words by length, this is useful for the custom challenge mode like if you want to only have 6 letter words for example.
+
 ## Features
 
 - **Daily Challenge**: Engage with a new word challenge every day.
 - **Custom Challenge**: Create and share custom word puzzles with friends.
-- **Responsive Design**: Optimized for both desktop and mobile users.
+- ~~**Responsive Design**: Optimized for both desktop and mobile users.~~
 
 ## Technology Stack
 
 - **Frontend**: React, TypeScript, Vite, CSS
-- **Backend**: Node.js (optional for custom challenge handling)
+- ~~**Backend**: Node.js (optional for custom challenge handling)~~
 - **Routing**: react-router-dom for frontend routing
 
 ## Pages and Components
 
-### Home Page
+### Dashboard Page
 
-- **Path**: `/home`
+- **Path**: `/dashboard`
 - **Components**:
   - `NavBar`: Navigation bar with links to all main pages.
   - `HomePage`: Introduction and selection between daily or custom challenges.
@@ -53,12 +63,7 @@ Implemented using `react-router-dom`, the routes are defined in the `App` compon
 ## Deployment
 
 - **Platform**: Vercel for frontend hosting, ensures fast delivery and easy deployment.
-- **Continuous Integration**: GitHub Actions for automated testing and deployment processes.
-
-## Security Considerations
-
-- Use HTTPS to secure all data transmissions.
-- Implement encryption for custom challenges to ensure word secrecy.
+- ~~**Continuous Integration**: GitHub Actions for automated testing and deployment processes.~~
 
 ## Future Enhancements
 
@@ -70,7 +75,7 @@ Implemented using `react-router-dom`, the routes are defined in the `App` compon
 
 heres the structure of the project
 
-### Dashboard Page
+### Dashboard Page Code
 
 #### Dashboard Page Components
 
@@ -78,7 +83,7 @@ heres the structure of the project
 - **WelcomeMessage Component:** Displays a greeting and brief instructions or introduction.
 - **Button Component:** Generic button for navigation; used for "Start Daily Challenge" and "Create/Join Custom Challenge".
 
-### Daily Challenge Page
+### Daily Challenge Page Code
 
 This page allows users to play the daily Wordle game.
 
@@ -89,9 +94,9 @@ This page allows users to play the daily Wordle game.
 - **GuessInput Component:** Allows text input for entering guesses.
 - **SubmitButton Component:** Submits the current guess.
 - **GameStatus Component:** Shows the number of attempts left and feedback on the current game state.
-- **DailyWordProvider Component:** Context provider that fetches and stores the daily word and manages game state.
+- ~~**DailyWordProvider Component:** Context provider that fetches and stores the daily word and manages game state.~~
 
-### Landing Page
+### Landing Page Code
 
 A simple introductory page for new visitors.
 
@@ -101,7 +106,7 @@ A simple introductory page for new visitors.
 - OverviewComponent: Briefly describes how to play the game.
 - **StartButton Component:** Directs users to the Home Page to start playing.
 
-### Custom Challenge Page
+### Custom Challenge Page Code
 
 Allows users to create a challenge with a custom word or join one via a shared link.
 
@@ -121,17 +126,19 @@ Components that are used across different pages for consistency and code reusabi
 - **Footer Component:** Displays copyright and basic info about the site.
 - **LoadingSpinner Component:** Shown during API calls or data fetching.
 - **Alert Component:** For displaying errors, warnings, or informational messages.
-Routing and Navigation
+  
+#### Routing and Navigation
+
 Manage navigation between different pages using React Router.
 
-- **App Component:** The main component that uses React Router to switch between the Landing Page, Home Page, Daily Challenge Page, and Custom Challenge Page.
+- **App Component:** The main component that uses React Router to switch between the Landing Page, Dashboard Page, Daily Challenge Page, and Custom Challenge Page.
 
-### CSS/Styles
+#### CSS/Styles
 
 Each component will have its associated CSS module for styling. Use CSS modules or styled-components for scoped and maintainable styles.
 
-### Utilities
+#### ~~Utilities~~
 
-- **api.js:** For handling fetch requests to your backend for words, challenges, and validations.
-- **auth.js:** (If implementing user authentication) Manages user sessions, sign-ins, and sign-outs.
-- **encrypt.js:** Handles encryption and decryption of custom challenge words.
+- ~~**api.js:** For handling fetch requests to your backend for words, challenges, and validations.~~
+- ~~**auth.js:** (If implementing user authentication) Manages user sessions, sign-ins, and sign-outs.~~
+- ~~**encrypt.js:** Handles encryption and decryption of custom challenge words.~~
