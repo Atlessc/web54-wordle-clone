@@ -1,7 +1,13 @@
-import { KeyboardProps } from '../../../types/keyboardTypes';
 import './keyboard.css';
 
-const Keyboard = ({ onKeyPress, letterStatuses }: KeyboardProps) => {
+interface KeyboardProps {
+  onKeyPress: (key: string) => void;
+  letterStatuses: { [key: string]: 'correct' | 'present' | 'absent' };
+  isDisabled: boolean; // New prop to control the keyboard's interactive state
+}
+
+const Keyboard = ({ onKeyPress, letterStatuses, isDisabled }: KeyboardProps) => {
+
 	const rows = [
 		['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
 		['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -9,7 +15,9 @@ const Keyboard = ({ onKeyPress, letterStatuses }: KeyboardProps) => {
 	];
 
 	const handleKeyPress = (key: string) => {
-		onKeyPress(key);
+		if (!isDisabled) {
+			onKeyPress(key);
+		}
 	};
 
 	return (
@@ -23,6 +31,7 @@ const Keyboard = ({ onKeyPress, letterStatuses }: KeyboardProps) => {
 						return (
 							<button
 								key={key}
+								disabled={isDisabled}
 								onClick={() => handleKeyPress(key)}
 								className={`keyboard-key ${letterStatuses[key] || ''}`}
 								style={{ width: keyWidth, margin: '5px' }}

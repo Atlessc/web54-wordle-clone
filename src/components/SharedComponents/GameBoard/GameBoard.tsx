@@ -4,12 +4,13 @@ interface GameBoardProps {
   wordLength: number;
   guesses: Array<Array<{ letter: string, status: 'correct' | 'present' | 'absent' }>>;
   currentGuess: string;
+  numOfGuesses: number;
 }
 
-const GameBoard = ({ wordLength, guesses, currentGuess }: GameBoardProps) => {
+const GameBoard = ({ wordLength, guesses, currentGuess, numOfGuesses }: GameBoardProps) => {
   return (
     <div className="game-board">
-      {Array.from({ length: 6 }).map((_, guessIndex) => (
+      {Array.from({ length: numOfGuesses }).map((_, guessIndex) => (
         <div key={guessIndex} className="guess-row">
           {Array.from({ length: wordLength }).map((__, letterIndex) => {
             const isCurrentGuessRow = guessIndex === guesses.length;
