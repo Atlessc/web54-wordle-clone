@@ -6,6 +6,8 @@ interface KeyboardProps {
   isDisabled: boolean; // New prop to control the keyboard's interactive state
 }
 
+// TODO: update to allow for mobile view
+
 const Keyboard = ({ onKeyPress, letterStatuses, isDisabled }: KeyboardProps) => {
 
 	const rows = [

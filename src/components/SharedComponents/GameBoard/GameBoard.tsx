@@ -1,5 +1,7 @@
 import './GameBoard.css';
 
+// TODO: update to allow for mobile view
+
 interface GameBoardProps {
   wordLength: number;
   guesses: Array<Array<{ letter: string, status: 'correct' | 'present' | 'absent' }>>;

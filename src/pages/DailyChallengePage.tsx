@@ -4,6 +4,8 @@ import GameBoard from '../components/SharedComponents/GameBoard/GameBoard';
 import Modal from '../components/SharedComponents/Modal/Modal';
 import wordsList from '../data/wordList.json';
 
+// TODO: update to allow for mobile view
+
 const DailyChallengePage = () => {
   const [currentWord, setCurrentWord] = useState('');
   const wordLength = currentWord.length;

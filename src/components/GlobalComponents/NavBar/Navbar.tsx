@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import './NavBar.css'; 
 // Make sure to create this CSS file for styling
 
+// TODO: update to allow for mobile view
+
 const NavBar = () => {
   return (
     <nav className="navbar">
