@@ -11,7 +11,7 @@ const DailyChallengePage = () => {
 
   const [guesses, setGuesses] = useState<Array<Array<{ letter: string; status: 'correct' | 'present' | 'absent' }>>>([]);
   const [letterStatuses, setLetterStatuses] = useState<{ [key: string]: 'correct' | 'present' | 'absent' }>({});
-  const numOfGuesses = 6;
+  const numOfGuesses = 8;
   const [gameStatus, setGameStatus] = useState<'won' | 'lost' | 'playing'>('playing');
 
   const pickRandomWord = () => {
