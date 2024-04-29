@@ -52,3 +52,15 @@
     font-size: 20px;
   }
 }
+
+@media screen and (max-width: 470px) and (min-width: 401px) {
+  .game-board {
+    height: 250px;
+    overflow: scroll;
+  }
+  .letter-box {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}

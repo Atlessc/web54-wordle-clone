@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Keyboard from '../components/SharedComponents/Keyboard/Keyboard';
 import GameBoard from '../components/SharedComponents/GameBoard/GameBoard';
 import Modal from '../components/SharedComponents/Modal/Modal';
@@ -171,6 +171,7 @@ const DailyChallengePage = () => {
       {gameStatus === 'won' && 
         <Modal isOpen={gameStatus === 'won'} onClose={() => handleNewGame()}>
           <h2>Congratulations! You've won!</h2>
+          <p>The word was {currentWord}</p>
           <button onClick={handleNewGame}>Play Again</button>
         </Modal>
       }
