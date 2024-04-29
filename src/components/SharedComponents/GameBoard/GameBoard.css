@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   margin: 20px 0 40px 0;
+  height: 200px;
+  overflow: scroll;
 }
 
 .guess-row {

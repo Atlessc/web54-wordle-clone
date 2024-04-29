@@ -3,6 +3,8 @@ import './Modal.css'; // Ensure you create this CSS file for styling
 
 // TODO: update to allow for mobile view
 
+
+
 interface ModalProps {
   isOpen: boolean;    // Controls if the modal is open or not
   onClose: () => void; // Function to call when closing the modal

@@ -41,3 +41,13 @@
   -ms-transform: scale(1.05);
   -o-transform: scale(1.05);
 }
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .nav-link {
+    margin: 10px 0;
+  }
+  
+}

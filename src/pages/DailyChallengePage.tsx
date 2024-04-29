@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Keyboard from '../components/SharedComponents/Keyboard/Keyboard';
 import GameBoard from '../components/SharedComponents/GameBoard/GameBoard';
 import Modal from '../components/SharedComponents/Modal/Modal';
@@ -6,58 +6,102 @@ import wordsList from '../data/wordList.json';
 
 // TODO: update to allow for mobile view
 
+
+
 const DailyChallengePage = () => {
+  const inputRef = useRef<HTMLDivElement>(null);
+
   const [currentWord, setCurrentWord] = useState('');
   const wordLength = currentWord.length;
   const [currentGuess, setCurrentGuess] = useState('');
+  const numOfGuesses = 8;
 
   const [guesses, setGuesses] = useState<Array<Array<{ letter: string; status: 'correct' | 'present' | 'absent' }>>>([]);
   const [letterStatuses, setLetterStatuses] = useState<{ [key: string]: 'correct' | 'present' | 'absent' }>({});
-  const numOfGuesses = 8;
   const [gameStatus, setGameStatus] = useState<'won' | 'lost' | 'playing'>('playing');
+  const [viewportWidth, setViewportWidth] = useState<number>();
+  const [viewportType, setViewportType] = useState<'Desktop' | 'Mobile' | ''>('');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 500) {
+        setViewportType("Mobile");
+      } else if (window.innerWidth <= 1024) {
+        setViewportType("Desktop");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const pickRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * wordsList.words.length);
     setCurrentWord(wordsList.words[randomIndex]);
   };
+
   useEffect(() => {
-    // Function to pick a random word
-    if (currentWord === '') {
-      pickRandomWord();  // Pick a word when the component mounts
+
+    if (currentWord == '') {
+      pickRandomWord();
     }
 
+    inputRef.current?.focus();
+
+    const handleViewportWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    if (viewportWidth && viewportWidth < 768) {
+      setViewportType('Mobile');
+    } else if (viewportWidth && viewportWidth >= 768) {
+      setViewportType('Desktop');
+    }
+
+    handleViewportWidth(); // Call the method on mount
+
+    window.addEventListener('resize', handleViewportWidth); // Add event listener for resize
+
+    return () => {
+      window.removeEventListener('resize', handleViewportWidth); // Clean up the event listener on unmount
+    };
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      const { key } = event;
-      if (key === 'Backspace') {
-        handleKeyInput('backspace');
-      } else if (key === 'Enter') {
-        handleKeyInput('enter');
-      } else if (key.length === 1 && key.match(/[a-z]/i)) { 
-        handleKeyInput(key.toLowerCase());
-      }
+      handleKeyInput(event.key);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentGuess, guesses]); 
+  }, [currentGuess, guesses]);
 
   const handleKeyInput = (key: string) => {
-    if (key === 'backspace') {
+    // Use a regular expression to validate that the key is a single alphabetic character.
+    console.log('Key processed:', key);
+    if (/^[a-zA-Z]$/.test(key)) {
+      if (currentGuess.length < wordLength) {
+        setCurrentGuess(currentGuess + key.toLowerCase());
+      }
+    } else if (key === 'Backspace') {
       setCurrentGuess(currentGuess.slice(0, -1));
-    } else if (key === 'enter') {
+    } else if (key === 'Enter') {
       if (currentGuess.length === wordLength && guesses.length < numOfGuesses) {
         evaluateGuess(currentGuess);
         setCurrentGuess('');
       }
-    } else if (currentGuess.length < wordLength) {
-      setCurrentGuess(currentGuess + key);
     }
   };
+  
 
   const evaluateGuess = (guess: string) => {
     // Initialize count of each letter in the target word
@@ -111,20 +155,19 @@ const DailyChallengePage = () => {
     }
   };
   
-
-const handleNewGame = () => {
+  const handleNewGame = () => {
   setCurrentGuess('');
   setGuesses([]);
   setGameStatus('playing');
   setLetterStatuses({});
   pickRandomWord();
-}
+  }
 
   return (
-    <div>
+    <div tabIndex={0} ref={inputRef} onKeyDown={(e) => handleKeyInput(e.key)} style={{ outline: 'none' }}>
       <h1>Word In A Bottle: Regular Mode</h1>
       <GameBoard wordLength={wordLength} guesses={guesses} currentGuess={currentGuess} numOfGuesses={numOfGuesses} />
-      <Keyboard onKeyPress={handleKeyInput} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} />
+      <Keyboard onKeyPress={handleKeyInput} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} viewportType={viewportType} />
       {gameStatus === 'won' && 
         <Modal isOpen={gameStatus === 'won'} onClose={() => handleNewGame()}>
           <h2>Congratulations! You've won!</h2>
