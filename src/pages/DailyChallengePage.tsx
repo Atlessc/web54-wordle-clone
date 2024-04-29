@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Keyboard from '../components/SharedComponents/Keyboard/Keyboard';
 import GameBoard from '../components/SharedComponents/GameBoard/GameBoard';
 import Modal from '../components/SharedComponents/Modal/Modal';
@@ -76,7 +76,7 @@ const DailyChallengePage = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      handleKeyInput(event.key, e);
+      handleKeyInput(event.key, event as unknown as React.KeyboardEvent);
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -85,7 +85,7 @@ const DailyChallengePage = () => {
     };
   }, []);
 
-  const handleKeyInput = (key: string, event: KeyboardEvent) => {
+  const handleKeyInput = (key: string, event: React.KeyboardEvent) => {
     if (key === 'Enter' || key === 'Backspace') {
         event?.preventDefault();
     }
@@ -163,11 +163,11 @@ const DailyChallengePage = () => {
   }
 
   return (
-    <div tabIndex={0} ref={inputRef} onKeyDown={(e) => handleKeyInput(e.key, e)} style={{ outline: 'none' }}>
+    <div tabIndex={0} ref={inputRef} onKeyDown={(event) => handleKeyInput(event.key, event)} style={{ outline: 'none' }}>
       {viewportType === 'Desktop' && <h1>Word In A Bottle: Mobile Mode</h1>}
       {viewportType === 'Mobile' && <h2>Word In A Bottle: Mobile Mode</h2>}
       <GameBoard wordLength={wordLength} guesses={guesses} currentGuess={currentGuess} numOfGuesses={numOfGuesses} />
-      <Keyboard onKeyPress={(key) => handleKeyInput(key, e)} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} viewportType={viewportType} />
+      <Keyboard onKeyPress={(key) => handleKeyInput(key, event as unknown as React.KeyboardEvent)} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} viewportType={viewportType} />
       {gameStatus === 'won' && 
         <Modal isOpen={gameStatus === 'won'} onClose={() => handleNewGame()}>
           <h2>Congratulations! You've won!</h2>
