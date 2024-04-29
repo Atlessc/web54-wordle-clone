@@ -3,8 +3,6 @@
   flex-direction: column;
   align-items: center;
   margin: 20px 0 40px 0;
-  height: 200px;
-  overflow: scroll;
 }
 
 .guess-row {
@@ -41,4 +39,16 @@
 
 .letter-box.absent {
   background-color: lightgrey;
+}
+
+@media screen and (max-width: 400px) and (min-width: 320px) {
+  .game-board {
+    height: 250px;
+    overflow: scroll;
+  }
+  .letter-box {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
 }

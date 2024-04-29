@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Keyboard from '../components/SharedComponents/Keyboard/Keyboard';
 import GameBoard from '../components/SharedComponents/GameBoard/GameBoard';
 import Modal from '../components/SharedComponents/Modal/Modal';
@@ -76,31 +76,30 @@ const DailyChallengePage = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      handleKeyInput(event.key);
+      handleKeyInput(event.key, e);
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentGuess, guesses]);
+  }, []);
 
-  const handleKeyInput = (key: string) => {
-    // Use a regular expression to validate that the key is a single alphabetic character.
-    console.log('Key processed:', key);
-    if (/^[a-zA-Z]$/.test(key)) {
-      if (currentGuess.length < wordLength) {
-        setCurrentGuess(currentGuess + key.toLowerCase());
-      }
-    } else if (key === 'Backspace') {
-      setCurrentGuess(currentGuess.slice(0, -1));
-    } else if (key === 'Enter') {
-      if (currentGuess.length === wordLength && guesses.length < numOfGuesses) {
-        evaluateGuess(currentGuess);
-        setCurrentGuess('');
-      }
+  const handleKeyInput = (key: string, event: KeyboardEvent) => {
+    if (key === 'Enter' || key === 'Backspace') {
+        event?.preventDefault();
     }
-  };
+    if (/^[a-zA-Z]$/.test(key) && currentGuess.length < wordLength) {
+        setCurrentGuess(prevGuess => prevGuess + key.toLowerCase());
+    } else if (key === 'Backspace' && currentGuess.length > 0) {
+        setCurrentGuess(prevGuess => prevGuess.slice(0, -1));
+    } else if (key === 'Enter' && currentGuess.length === wordLength) {
+        if (guesses.length < numOfGuesses) {
+            evaluateGuess(currentGuess);
+            setCurrentGuess('');
+        }
+    }
+};
   
 
   const evaluateGuess = (guess: string) => {
@@ -164,10 +163,11 @@ const DailyChallengePage = () => {
   }
 
   return (
-    <div tabIndex={0} ref={inputRef} onKeyDown={(e) => handleKeyInput(e.key)} style={{ outline: 'none' }}>
-      <h1>Word In A Bottle: Regular Mode</h1>
+    <div tabIndex={0} ref={inputRef} onKeyDown={(e) => handleKeyInput(e.key, e)} style={{ outline: 'none' }}>
+      {viewportType === 'Desktop' && <h1>Word In A Bottle: Mobile Mode</h1>}
+      {viewportType === 'Mobile' && <h2>Word In A Bottle: Mobile Mode</h2>}
       <GameBoard wordLength={wordLength} guesses={guesses} currentGuess={currentGuess} numOfGuesses={numOfGuesses} />
-      <Keyboard onKeyPress={handleKeyInput} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} viewportType={viewportType} />
+      <Keyboard onKeyPress={(key) => handleKeyInput(key, e)} letterStatuses={letterStatuses} isDisabled={gameStatus === 'won' || gameStatus === 'lost'} viewportType={viewportType} />
       {gameStatus === 'won' && 
         <Modal isOpen={gameStatus === 'won'} onClose={() => handleNewGame()}>
           <h2>Congratulations! You've won!</h2>
